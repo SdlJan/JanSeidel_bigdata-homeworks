@@ -1,0 +1,27 @@
+-- Create table out of txt file 
+
+CREATE TABLE Sales_Table
+(
+
+)
+
+BULK INSERT Sales_Table
+    FROM 'H:/home/jan_seidel/mapreduce/minipurchases.txt' 
+    WITH (FIELDTERMINATOR = ',', ROWTERMINATOR = '\n')
+;
+
+-- Mapper 
+
+CREATE TABLE PaymentTable AS
+SELECT Payment AS PaymentType, Sales
+FROM Sales_Table 
+ORDER BY Payment 
+ 
+-- Reducer 
+
+SELECT PaymentType, Sales 
+FROM PaymentTable 
+GROUP BY PaymentType 
+
+
+
