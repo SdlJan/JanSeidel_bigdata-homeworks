@@ -4,21 +4,21 @@
 SELECT Payment AS PaymentType, Sales
 FROM minipurchases
 GROUP BY Payment
-ORDER BY Payment 
-; 
+ORDER BY Payment
+;
 
 -- CHANGE 1
-SELECT Category, SUM(Sales) 
-FROM minipurchases 
+SELECT Category, SUM(Sales)
+FROM minipurchases
 GROUP BY Category
-ORDER BY Category 
+ORDER BY Category
 ;
-  
+
 --CHANGE 2
 SELECT Category, COUNT(Sales)
-FROM minipurchases 
-GROUP BY Category   
-ORDER BY Category 
+FROM minipurchases
+GROUP BY Category
+ORDER BY Category
 ;
 
 --CHANGE 3
