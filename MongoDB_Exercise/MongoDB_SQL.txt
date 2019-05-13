@@ -1,27 +1,56 @@
--- Create table out of txt file 
 
-CREATE TABLE Sales_Table
-(
+-- SQL WITH  MAPREDUCE
 
-)
+SELECT Payment AS PaymentType, Sales
+FROM minipurchases
+GROUP BY Payment
+ORDER BY Payment 
+; 
 
-BULK INSERT Sales_Table
-    FROM 'H:/home/jan_seidel/mapreduce/minipurchases.txt' 
-    WITH (FIELDTERMINATOR = ',', ROWTERMINATOR = '\n')
+-- CHANGE 1
+SELECT Category, SUM(Sales) 
+FROM minipurchases 
+GROUP BY Category
+ORDER BY Category 
+;
+  
+--CHANGE 2
+SELECT Category, COUNT(Sales)
+FROM minipurchases 
+GROUP BY Category   
+ORDER BY Category 
 ;
 
--- Mapper 
+--CHANGE 3
 
-CREATE TABLE PaymentTable AS
-SELECT Payment AS PaymentType, Sales
-FROM Sales_Table 
-ORDER BY Payment 
- 
--- Reducer 
+BEGIN TRY
+  IF COUNT(minipurchases) < 6
+    BEGIN
+      RAISERROR('Less than 6 columns')
+    END
+    SELECT Category, COUNT(Sales)
+    FROM minipurchases
+    GROUP BY Category
+    ORDER BY Category;
+END TRY
 
-SELECT PaymentType, Sales 
-FROM PaymentTable 
-GROUP BY PaymentType 
+--CHANGE 4
 
+SELECT Category, SUM(Sales)
+FROM minipurchases
+WHERE Category = 'Computers' OR Category = 'Cameras' OR Category = 'Video Games'
+GROUP BY Category
+ORDER BY Category;
 
+--CHANGE 5
 
+SELECT Category, COUNT(Sales)
+FROM minipurchases
+GROUP BY Category
+HAVING COUNT(Sales) >= 114;
+
+--CHANGE 6
+
+SELECT Category, AVG(Sales)
+from minipurchases
+GROUP BY Category;
